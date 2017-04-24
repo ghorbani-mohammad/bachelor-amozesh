@@ -7,6 +7,7 @@ import re
 
 url_captcha="http://golestan.araku.ac.ir/home/balancer/balancer.aspx?vv=2&cost=main"
 url_captcha_img="http://golestan.araku.ac.ir/home/balancer/captcha.aspx"
+url_set_cid="https://golestan.araku.ac.ir/Forms/AuthenticateUser/setcid.aspx?cid"
 
 s=requests.session()
 r=s.get(url_captcha)
@@ -76,12 +77,31 @@ text=r.content
 
 
 
-start=text.find(b'<script>')+len('<script>')
-end=text.find(b'</script>')
-print(text[start:end])
+# start=text.find(b'<script>')+len('<script>')
+# end=text.find(b'</script>')
+# print(text[start:end])
 
 
 start=text.find(b'setcid.aspx?cid')+len('setcid.aspx?cid')
 end=text.find(b'</script>')-3
-print(text[start+1:end])
+cid=text[start:end]
+cid=cid.decode()
+# print(cid)
 
+# print(url_set_cid+cid)
+r=s.get(url_set_cid+cid,verify=False)
+
+# print(r.status_code)
+# print(r.text)
+# print(r.content)
+
+s.headers.update({'Referer': 'https://golestan.araku.ac.ir/Forms/AuthenticateUser/login.htm'})
+r=s.get('https://golestan.araku.ac.ir/Forms/AuthenticateUser/login.htm')
+
+s.headers.update({'Referer': 'https://golestan.araku.ac.ir/Forms/AuthenticateUser/nav.htm?fid=0;1&tck=&'})
+r=s.get('https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.aspx?fid=0;1&tck=&')
+
+# print(r.status_code)
+# print(r.content)
+# print(r.headers)
+print(r.text)
