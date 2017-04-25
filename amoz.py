@@ -101,7 +101,46 @@ r=s.get('https://golestan.araku.ac.ir/Forms/AuthenticateUser/login.htm')
 s.headers.update({'Referer': 'https://golestan.araku.ac.ir/Forms/AuthenticateUser/nav.htm?fid=0;1&tck=&'})
 r=s.get('https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.aspx?fid=0;1&tck=&')
 
+
+
+
 # print(r.status_code)
 # print(r.content)
 # print(r.headers)
-print(r.text)
+# print(r.text)
+
+soup = BeautifulSoup(r.text, 'html.parser')
+#
+VIEWSTATE=soup.find(id="__VIEWSTATE").get('value')
+VIEWSTATEGENERATOR=soup.find(id="__VIEWSTATEGENERATOR").get('value')
+EVENTVALIDATION=soup.find(id="__EVENTVALIDATION").get('value')
+
+
+url_Post_UserPass=soup.find(id="DataModi").get('action')
+url_Post_UserPass=url_Post_UserPass[1:]
+url_Post_UserPass='https://golestan.araku.ac.ir/Forms/AuthenticateUser'+url_Post_UserPass
+
+
+User='9213231259'
+Pass='zXc@#$zXc73'
+
+User_Pass='<r F51851="" F80401="'+Pass+'" F80351="'+User+'" F83181="" F51701=""/>'
+# s.headers.update({'Referer': 'https://golestan.araku.ac.ir/Forms/AuthenticateUser/AuthUser.aspx?fid=0%3b1&tck=&&&lastm=20170220062406'})
+r=s.post(url_Post_UserPass,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':VIEWSTATEGENERATOR,
+                                        '__EVENTVALIDATION':EVENTVALIDATION,
+                                        'TxtMiddle':User_Pass,'Fm_Action':'09','Frm_Type':'','Frm_No':'','TicketTextBox':''})
+
+
+# print(r.content)
+# print(r.text)
+
+text=r.content
+print(len(text))
+start=text.find(b'showusr')+len('showusr')
+print(start)
+end=text.find(b'SetUsr')
+print(end)
+cid=text[start:end]
+print(cid)
+cid=cid.decode()
+print(cid)
