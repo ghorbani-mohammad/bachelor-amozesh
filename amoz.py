@@ -134,13 +134,39 @@ r=s.post(url_Post_UserPass,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':
 # print(r.content)
 # print(r.text)
 
-text=r.content
-print(len(text))
-start=text.find(b'showusr')+len('showusr')
-print(start)
-end=text.find(b'SetUsr')
-print(end)
-cid=text[start:end]
-print(cid)
-cid=cid.decode()
-print(cid)
+cookie=r.headers['Set-Cookie']
+# print(cookie)
+
+start=cookie.find('stdno=')+len('stdno=')
+end=cookie.find('; expires')
+stdno=cookie[start:end]
+cookie=cookie[end+len('; expires'):]
+# print(stdno)
+# print(cookie)
+
+start=cookie.find('u=')+len('u=')
+end=cookie.find('; path=/; Http')
+u=cookie[start:end]
+cookie=cookie[end+len('; path=/; Http'):]
+# print(u)
+# print(cookie)
+
+start=cookie.find('lt=')+len('lt=')
+end=cookie.find('; path=/; Http')
+lt=cookie[start:end]
+# print(lt)
+
+# text=r.content
+# print(len(text))
+# start=text.find(b'showusr')+len('showusr')
+# print(start)
+# end=text.find(b'SetUsr')
+# print(end)
+# cid=text[start:end]
+# print(cid)
+# cid=cid.decode()
+# print(cid)
+
+
+
+
