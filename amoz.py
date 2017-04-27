@@ -130,12 +130,13 @@ r=s.post(url_Post_UserPass,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':
                                         '__EVENTVALIDATION':EVENTVALIDATION,
                                         'TxtMiddle':User_Pass,'Fm_Action':'09','Frm_Type':'','Frm_No':'','TicketTextBox':''})
 
+cookie=r.headers['Set-Cookie']
 
 # print(r.content)
 # print(r.text)
-
-cookie=r.headers['Set-Cookie']
 # print(cookie)
+
+
 
 start=cookie.find('stdno=')+len('stdno=')
 end=cookie.find('; expires')
@@ -168,5 +169,95 @@ lt=cookie[start:end]
 # print(cid)
 
 
+# print(r.content)
+# print(r.text)
+# print(r.headers)
+s.cookies.update({'seq':'6','su':'0','f':'1','ft':'0'})
+s.headers.update({'Referer': 'https://golestan.araku.ac.ir/Forms/AuthenticateUser/main.htm'})
+url="https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.htm?r=0.49174303911660877&fid=0;11130&b=&l=&tck="+lt
+r=s.get(url)
 
+
+s.cookies.update({'seq':'6','su':'0','f':'1','ft':'0'})
+s.headers.update({'Referer': 'https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.htm?r=0.4917430391166087&fid=0;11130&b=&l=&tck='+lt})
+url='https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav_Mai.htm'
+r=s.get(url)
+
+
+
+s.headers.update({'Referer': 'https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.htm?r=0.49174303911660877&fid=0;11130&b=&l=&tck='+lt})
+url="https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.aspx?r=0.49174303911660877&fid=0;11130&b=&l=&tck="+lt
+r=s.get(url)
+
+
+# 20090829075642
+# 20090829075642
+# s.cookies.update({'seq':'3','su':'0','f':'1','ft':'0'})
+# s.headers.update({'Referer': 'https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.htm?r=0.7616060428777462&fid=0;11130&b=&l=&tck='+lt})
+# url='https://golestan.araku.ac.ir/Forms/F0213_PROCESS_SYSMENU/F0213_01_PROCESS_SYSMENU_Dat.aspx?r=0.7616060428777462&fid=0;11130&b=&l=&tck='+lt+'&&lastm=20090829075642'
+# r=s.get(url)
+#
+#
+#
+# soup = BeautifulSoup(r.text, 'html.parser')
+# VIEWSTATE=soup.find(id="__VIEWSTATE").get('value')
+# VIEWSTATEGENERATOR=soup.find(id="__VIEWSTATEGENERATOR").get('value')
+# EVENTVALIDATION=soup.find(id="__EVENTVALIDATION").get('value')
+# TicketTextBox=soup.find(id="TicketTextBox").get('value')
+#
+#
+#
+#
+# s.cookies.update({'seq':'7','su':'0','f':'11130','ft':'0'})
+# s.headers.update({'Referer': 'https://golestan.araku.ac.ir/Forms/F0213_PROCESS_SYSMENU/F0213_01_PROCESS_SYSMENU_Dat.aspx?r=0.33257199920332586&fid=0;11130&b=&l=&tck='+lt+'&&lastm=20090829075642'})
+# url='https://golestan.araku.ac.ir/Forms/F0213_PROCESS_SYSMENU/F0213_01_PROCESS_SYSMENU_Dat.aspx?r=0.33257199920332586&fid=0%3b11130&b=&l=&tck='+lt+'&&lastm=20090829075642'
+# r=s.post(url,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':VIEWSTATEGENERATOR,
+#                                         '__EVENTVALIDATION':EVENTVALIDATION,
+                                        'Fm_Action':'00','Frm_Type':'','Frm_No':'','TicketTextBox':TicketTextBox,'XMLStdHlp':'','TxtMiddle':'<r/>'})
+
+
+# s.headers.update({'Referer': 'https://golestan.araku.ac.ir/Forms/AuthenticateUser/main.htm'})
+# url='https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.htm?r=0.6707888345168351&fid=0;12310&b=0&l=0&tck='+lt
+# r=s.get(url)
+#
+# s.cookies.update({'seq':'4','su':'0','f':'11130','ft':'0'})
+# s.headers.update({'Referer': 'https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.htm?r=0.6707888345168351&fid=0;12310&b=0&l=0&tck='+lt})
+# url='https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.aspx?r=0.6707888345168351&fid=0;12310&b=0&l=0&tck='+lt
+# r=s.get(url)
+
+# print(r.content)
+# print(r.text)
+# 20140622082604
+# print(s.cookies)
+# s.cookies.update({'seq':'7','su':'0','f':'11130','ft':'0'})
+# s.headers.update({'Referer':'https://golestan.araku.ac.ir/forms/f0240_process_authnav/nav.htm?r=0.6707888345168351&fid=0;12310&b=0&l=0&tck='+lt})
+# url='https://golestan.araku.ac.ir/Forms/F1802_PROCESS_MNG_STDJAMEHMON/F1802_01_PROCESS_MNG_STDJAMEHMON_Dat.aspx?r=0.6707888345168351&fid=0;12310&b=0&l=0&tck='+lt+'&&lastm=20140622082604'
+# r=s.get(url)
+
+# soup = BeautifulSoup(r.text, 'html.parser')
+# VIEWSTATE=soup.find(id="__VIEWSTATE").get('value')
+# VIEWSTATEGENERATOR=soup.find(id="__VIEWSTATEGENERATOR").get('value')
+# EVENTVALIDATION=soup.find(id="__EVENTVALIDATION").get('value')
+# TicketTextBox=soup.find(id="TicketTextBox").get('value')
+#
+# s.cookies.update({'seq':'8','su':'3','f':'12310','ft':'0'})
+# s.headers.update({'Referer':'https://golestan.araku.ac.ir/Forms/F1802_PROCESS_MNG_STDJAMEHMON/F1802_01_PROCESS_MNG_STDJAMEHMON_Dat.aspx?r=0.6707888345168351&fid=0;12310&b=0&l=0&tck='+lt+'&&lastm=20140622082604'+lt})
+# url='https://golestan.araku.ac.ir/Forms/F1802_PROCESS_MNG_STDJAMEHMON/F1802_01_PROCESS_MNG_STDJAMEHMON_Dat.aspx?r=0.6707888345168351&fid=0%3b12310&b=0&l=0&tck='+lt+'&&lastm=20140622082604'
+# r=s.post(url,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':VIEWSTATEGENERATOR,
+#                                         '__EVENTVALIDATION':EVENTVALIDATION,
+#                                         'Fm_Action':'00','Frm_Type':'','Frm_No':'','TicketTextBox':TicketTextBox,'XMLStdHlp':'','TxtMiddle':'<r/>'})
+#
+#
+# soup = BeautifulSoup(r.text, 'html.parser')
+# VIEWSTATE=soup.find(id="__VIEWSTATE").get('value')
+# VIEWSTATEGENERATOR=soup.find(id="__VIEWSTATEGENERATOR").get('value')
+# EVENTVALIDATION=soup.find(id="__EVENTVALIDATION").get('value')
+# TicketTextBox=soup.find(id="TicketTextBox").get('value')
+#
+# #
+# s.cookies.update({'seq':'8','sno':'9213231259','stdno':'9213231259','su':'3','f':'12310','ft':'0'})
+# url='https://golestan.araku.ac.ir/Forms/F1802_PROCESS_MNG_STDJAMEHMON/F1802_01_PROCESS_MNG_STDJAMEHMON_Dat.aspx?r=0.6707888345168351&fid=0%3b12310&b=0&l=0&tck='+lt+'&&lastm=20140622082604'
+# r=s.post(url,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':'6AC8DB9B',
+#                                         '__EVENTVALIDATION':EVENTVALIDATION,
+#                                         'Fm_Action':'08','Frm_Type':'','Frm_No':'','TicketTextBox':TicketTextBox,'XMLStdHlp':'','TxtMiddle':'<r F41251="9213231259"/>'})
 
