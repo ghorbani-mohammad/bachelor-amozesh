@@ -310,16 +310,21 @@ r=s.post(url,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':'6AC8DB9B',
                                         '__EVENTVALIDATION':EVENTVALIDATION,
                                         'Fm_Action':'08','Frm_Type':'','Frm_No':'','TicketTextBox':TicketTextBox,'XMLStdHlp':'','TxtMiddle':'<r F41251="9213231259"/>'})
 
+#
+# content=r.content
+# start=content.find(str.encode('<Root>'))
+# end=content.find(str.encode('</Root>'))
+# content=content[start:end]
+# # print(content)
+# content=content.decode()
+# print(content)
 
 
-
-content=r.content
-start=content.find(str.encode('<Root>'))
-end=content.find(str.encode('</Root>'))
-content=content[start:end]
-print(content)
-content=content.decode()
-print(content)
+soup = BeautifulSoup(r.text, 'html.parser')
+VIEWSTATE=soup.find(id="__VIEWSTATE").get('value')
+VIEWSTATEGENERATOR=soup.find(id="__VIEWSTATEGENERATOR").get('value')
+EVENTVALIDATION=soup.find(id="__EVENTVALIDATION").get('value')
+TicketTextBox=soup.find(id="TicketTextBox").get('value')
 
 
 # def find_all(content, sub):
@@ -333,5 +338,26 @@ print(content)
 
 
 
+s.cookies.update({'seq':seq,'sno':'9213231259','stdno':'9213231259','su':'3','f':'12310','ft':'0'})
+url='https://golestan.araku.ac.ir/Forms/F1802_PROCESS_MNG_STDJAMEHMON/F1802_01_PROCESS_MNG_STDJAMEHMON_Dat.aspx?r=0.6707888345168351&fid=0%3b12310&b=0&l=0&tck='+lt+'&&lastm=20140622082604'
+r=s.post(url,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':'6AC8DB9B',
+                                        '__EVENTVALIDATION':EVENTVALIDATION,
+                                        'Fm_Action':'80','Frm_Type':'','Frm_No':'','TicketTextBox':TicketTextBox,'XMLStdHlp':'','TxtMiddle':'<r F41251="9213231259" F43501="3952"/>'})
+
+content=r.content
+start=content.find(str.encode('<Root>'))
+end=content.find(str.encode('</Root>'))
+content2=content[start:end]
+# print(content2)
+content2=content2.decode()
+print(content2)
+
+content=content[end:]
+start=content.find(str.encode('<Root>'))
+end=content.find(str.encode('</Root>'))
+content2=content[start:end]
+# print(content2)
+content2=content2.decode()
+print(content2)
 
 
