@@ -8,6 +8,63 @@ from bs4 import BeautifulSoup
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
+def getGradesOfTerm(User,term, r):
+
+    print("Getting Grades For Term: "+term)
+
+    soup = BeautifulSoup(r.text, 'html.parser')
+    VIEWSTATE = soup.find(id="__VIEWSTATE").get('value')
+    VIEWSTATEGENERATOR = soup.find(id="__VIEWSTATEGENERATOR").get('value')
+    EVENTVALIDATION = soup.find(id="__EVENTVALIDATION").get('value')
+    TicketTextBox = soup.find(id="TicketTextBox").get('value')
+
+    print(seq)
+
+    s.cookies.update({'seq': seq, 'sno': User, 'stdno': User, 'su': '3', 'f': '12310', 'ft': '0'})
+    url = 'https://golestan.araku.ac.ir/Forms/F1802_PROCESS_MNG_STDJAMEHMON/F1802_01_PROCESS_MNG_STDJAMEHMON_Dat.aspx?r=0.6707888345168351&fid=0%3b12310&b=0&l=0&tck=' + lt + '&&lastm=20140622082604'
+    r = s.post(url, data={'__VIEWSTATE': VIEWSTATE, '__VIEWSTATEGENERATOR': '6AC8DB9B',
+                          '__EVENTVALIDATION': EVENTVALIDATION,
+                          'Fm_Action': '80', 'Frm_Type': '', 'Frm_No': '', 'TicketTextBox': TicketTextBox,
+                          'XMLStdHlp': '', 'TxtMiddle': '<r F41251="'+User+'" F43501="'+term+'"/>'})
+
+    content = r.content
+    start = content.find(str.encode('<Root>'))
+    start = start + len('<Root>')
+    end = content.find(str.encode('</Root>'))
+    end = end + len('</Root>')
+    content2 = content[start:end]
+    content2 = content2.decode()
+
+    content = r.content[end:]
+    start = content.find(str.encode('<Root>'))
+    start = start + len('<Root>')
+    end = content.find(str.encode('</Root>'))
+    end = end + len('</Root>')
+    content2 = content[start:end]
+
+    content = content2
+
+    id = content.find(str.encode('id="'))
+    while id != -1:
+        id = content.find(str.encode('id="'))
+        end = id + len('id="')
+        content = content[end:]
+
+        stOfCourse = content.find(str.encode('F0200="'))
+        stOfCourse = stOfCourse + len('F0200="')
+        enOfCourse = content.find(str.encode('" F0205="'))
+
+        stGrOfCourse = content.find(str.encode('F3945="'))
+        stGrOfCourse = stGrOfCourse + len('F3945="')
+        enGrOfCourse = content.find(str.encode('" F3955="'))
+
+        print(
+            content[stOfCourse:enOfCourse].decode("utf-8", "ignore") + ": " + content[stGrOfCourse:enGrOfCourse].decode(
+                "utf-8", "ignore"))
+        id = content.find(str.encode('id="'))
+    return r
+
 url_captcha="http://golestan.araku.ac.ir/home/balancer/balancer.aspx?vv=2&cost=main"
 url_captcha_img="http://golestan.araku.ac.ir/home/balancer/captcha.aspx"
 url_set_cid="https://golestan.araku.ac.ir/Forms/AuthenticateUser/setcid.aspx?cid"
@@ -189,12 +246,13 @@ VIEWSTATEGENERATOR=soup.find(id="__VIEWSTATEGENERATOR").get('value')
 EVENTVALIDATION=soup.find(id="__EVENTVALIDATION").get('value')
 TicketTextBox=soup.find(id="TicketTextBox").get('value')
 
+# print(User)
 #Getting Ettelaat Jamme
-s.cookies.update({'seq':seq,'sno':'9213231259','stdno':'9213231259','su':'3','f':'12310','ft':'0'})
+s.cookies.update({'seq':seq,'sno':User,'stdno':User,'su':'3','f':'12310','ft':'0'})
 url='https://golestan.araku.ac.ir/Forms/F1802_PROCESS_MNG_STDJAMEHMON/F1802_01_PROCESS_MNG_STDJAMEHMON_Dat.aspx?r=0.6707888345168351&fid=0%3b12310&b=0&l=0&tck='+lt+'&&lastm=20140622082604'
 r=s.post(url,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':'6AC8DB9B',
                                         '__EVENTVALIDATION':EVENTVALIDATION,
-                                        'Fm_Action':'08','Frm_Type':'','Frm_No':'','TicketTextBox':TicketTextBox,'XMLStdHlp':'','TxtMiddle':'<r F41251="9213231259"/>'})
+                                        'Fm_Action':'08','Frm_Type':'','Frm_No':'','TicketTextBox':TicketTextBox,'XMLStdHlp':'','TxtMiddle':'<r F41251="'+User+'"/>'})
 
 
 content=r.content
@@ -220,9 +278,9 @@ start=start+len('F41801')
 end=content.find(str.encode('F42251'))
 Punits=content[start+1:end-1]
 Punits=Punits.decode()
-
 print(Punits)
 
+# exit()
 
 content=content[end:]
 term=content.find(str.encode('F4350="'))
@@ -235,6 +293,8 @@ while start != -1:
     print(term)
     end=end+len('" F4455')
     content=content[end+1:]
+
+    r=getGradesOfTerm(User,term,r)
 
     start = content.find(str.encode('F4365="'))
     start = start + len('F4365="')
@@ -269,51 +329,6 @@ while start != -1:
 
 
 
-exit()
-
-soup = BeautifulSoup(r.text, 'html.parser')
-VIEWSTATE=soup.find(id="__VIEWSTATE").get('value')
-VIEWSTATEGENERATOR=soup.find(id="__VIEWSTATEGENERATOR").get('value')
-EVENTVALIDATION=soup.find(id="__EVENTVALIDATION").get('value')
-TicketTextBox=soup.find(id="TicketTextBox").get('value')
 
 
-s.cookies.update({'seq':seq,'sno':'9213231259','stdno':'9213231259','su':'3','f':'12310','ft':'0'})
-url='https://golestan.araku.ac.ir/Forms/F1802_PROCESS_MNG_STDJAMEHMON/F1802_01_PROCESS_MNG_STDJAMEHMON_Dat.aspx?r=0.6707888345168351&fid=0%3b12310&b=0&l=0&tck='+lt+'&&lastm=20140622082604'
-r=s.post(url,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':'6AC8DB9B',
-                                        '__EVENTVALIDATION':EVENTVALIDATION,
-                                        'Fm_Action':'80','Frm_Type':'','Frm_No':'','TicketTextBox':TicketTextBox,'XMLStdHlp':'','TxtMiddle':'<r F41251="9213231259" F43501="3952"/>'})
 
-content=r.content
-start=content.find(str.encode('<Root>'))
-start=start+len('<Root>')
-end=content.find(str.encode('</Root>'))
-end=end+len('</Root>')
-content2=content[start:end]
-content2=content2.decode()
-
-content=r.content[end:]
-start=content.find(str.encode('<Root>'))
-start=start+len('<Root>')
-end=content.find(str.encode('</Root>'))
-end=end+len('</Root>')
-content2=content[start:end]
-
-content=content2
-
-id = content.find(str.encode('id="'))
-while id != -1:
-    id = content.find(str.encode('id="'))
-    end = id + len('id="')
-    content = content[end:]
-
-    stOfCourse = content.find(str.encode('F0200="'))
-    stOfCourse = stOfCourse + len('F0200="')
-    enOfCourse = content.find(str.encode('" F0205="'))
-
-    stGrOfCourse = content.find(str.encode('F3945="'))
-    stGrOfCourse = stGrOfCourse + len('F3945="')
-    enGrOfCourse = content.find(str.encode('" F3955="'))
-
-    print(content[stOfCourse:enOfCourse].decode("utf-8", "ignore") + ": " + content[stGrOfCourse:enGrOfCourse].decode("utf-8", "ignore"))
-    id = content.find(str.encode('id="'))
