@@ -29,23 +29,19 @@ def getGradesOfTerm(User,term, r):
                           'XMLStdHlp': '', 'TxtMiddle': '<r F41251="'+User+'" F43501="'+term+'"/>'})
 
     content = r.content
-    start = content.find(str.encode('<Root>'))
-    start = start + len('<Root>')
     end = content.find(str.encode('</Root>'))
     end = end + len('</Root>')
-    content2 = content[start:end]
-    content2 = content2.decode()
 
     content = r.content[end:]
     start = content.find(str.encode('<Root>'))
     start = start + len('<Root>')
     end = content.find(str.encode('</Root>'))
     end = end + len('</Root>')
-    content2 = content[start:end]
+    content = content[start:end]
 
-    content = content2
 
     id = content.find(str.encode('id="'))
+    print(id)
     while id != -1:
         id = content.find(str.encode('id="'))
         end = id + len('id="')
@@ -97,7 +93,13 @@ r=s.post(url_captcha,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':VIEWST
 text=r.content
 
 
-start=text.find(b'setcid.aspx?cid')+len('setcid.aspx?cid')
+
+
+start=text.find(b'setcid.aspx?cid')
+if(start == -1):
+    print("Missmatch Captcha")
+    exit()
+start=start+len('setcid.aspx?cid')
 end=text.find(b'</script>')-3
 cid=text[start:end]
 cid=cid.decode()
@@ -125,7 +127,7 @@ url_Post_UserPass='https://golestan.araku.ac.ir/Forms/AuthenticateUser'+url_Post
 
 
 User='9213231259'
-Pass='zXc@#$zXc73'
+Pass='zXc@#$zXc73*'
 
 User_Pass='<r F51851="" F80401="'+Pass+'" F80351="'+User+'" F83181="" F51701=""/>'
 r=s.post(url_Post_UserPass,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':VIEWSTATEGENERATOR,
@@ -150,8 +152,12 @@ end=cookie.find('; path=/; Http')
 lt=cookie[start:end]
 
 seq=r.content
-start=seq.find(str.encode(lt+"','"+lt))+len(lt+"','"+lt)
+start=seq.find(str.encode(lt+"','"+lt))
+start=start+len(lt+"','"+lt)
 end=seq.find(str.encode('ورود به سيستم'))
+if(end==-1):
+    print("Unsuccessful Login")
+    exit()
 seq=seq[start+2:end-2]
 seq=seq.decode()
 
@@ -205,7 +211,8 @@ r=s.post(url,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':VIEWSTATEGENER
 
 
 content=r.content
-start=content.find(str.encode(lt))+len(lt)
+start=content.find(str.encode(lt))
+start=start+len(lt)
 lt_copy=lt
 lt=content[start+3:start+len(lt)+3]
 lt=lt.decode()
@@ -219,11 +226,17 @@ r=s.get(url)
 
 
 seq=r.content
-start=seq.find(str.encode(lt_copy))+2*len(lt_copy)
+start=seq.find(str.encode(lt_copy))
+start=start+2*len(lt_copy)
 end=seq.find(str.encode('اطلاعات جامع دانشجو'))
+if(end==-1):
+    print("Max Connection")
+    exit()
 seq=seq[start+5:end-2]
 seq=seq.decode()
-
+if(end==-1):
+    print("Max Connection")
+    exit()
 
 soup = BeautifulSoup(r.text, 'html.parser')
 VIEWSTATE=soup.find(id="__VIEWSTATE").get('value')
