@@ -127,7 +127,7 @@ url_Post_UserPass='https://golestan.araku.ac.ir/Forms/AuthenticateUser'+url_Post
 
 
 User='9213231259'
-Pass='zXc@#$zXc73*'
+Pass='zXc@#$zXc73'
 
 User_Pass='<r F51851="" F80401="'+Pass+'" F80351="'+User+'" F83181="" F51701=""/>'
 r=s.post(url_Post_UserPass,data={'__VIEWSTATE':VIEWSTATE,'__VIEWSTATEGENERATOR':VIEWSTATEGENERATOR,
@@ -190,10 +190,15 @@ r=s.get(url)
 
 
 seq=r.content
+# print(r.content)
 start=seq.find(str.encode(lt))+2*len(lt)
 end=seq.find(str.encode('منوي كاربر'))
 seq=seq[start+5:end-2]
 seq=seq.decode()
+print(seq)
+if(seq==0):
+    print("Max Login Error")
+    exit()
 
 soup = BeautifulSoup(r.text, 'html.parser')
 VIEWSTATE=soup.find(id="__VIEWSTATE").get('value')
@@ -230,12 +235,12 @@ start=seq.find(str.encode(lt_copy))
 start=start+2*len(lt_copy)
 end=seq.find(str.encode('اطلاعات جامع دانشجو'))
 if(end==-1):
-    print("Max Connection")
+    print("Max Connection To Ettelat Jamee Error")
     exit()
 seq=seq[start+5:end-2]
 seq=seq.decode()
-if(end==-1):
-    print("Max Connection")
+if(seq==0):
+    print("Max Connection To Ettelat Jamee Error")
     exit()
 
 soup = BeautifulSoup(r.text, 'html.parser')
